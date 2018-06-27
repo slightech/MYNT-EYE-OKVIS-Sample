@@ -2,12 +2,54 @@
 [MYNT-EYE-SDK-2]: https://github.com/slightech/MYNT-EYE-SDK-2.git
 [OKVIS]: https://github.com/slightech/MYNT-EYE-OKVIS-Sample.git
 
-1. Download [MYNT-EYE-SDK-2][] and install mynt_eye_ros_wrapper.
+1. Download and install [MYNT-EYE-SDK-2][].
 2. Add the path including **MYNT-EYE-SDK** to the environment variable. Open .bashrc file and add at the end the following line.
     ```
     export MYNTEYE_SDK2_ROOT=MYNT-EYE-SDK-2_INSTALL_PATH
-3. Clone MYNT-EYE-OKVIS-Sample sdk2 branch and install it following the procedure of the original OKVIS.
-4.
+    ```
+3. Clone and install MYNT-EYE-OKVIS following the procedure of the original OKVIS.
+4. Update camera parameters to [here](./config/config_mynteye.yaml).
+5. run okvis using mynteye camaera.
+
+## Get camera calibration parameters
+Through the GetIntrinsics() and GetExtrinsics() function of the [MYNT-EYE-SDK-2][] API, you can get the camaera calibration parameters of the currently open device,follow the steps
+```
+cd MYNT-EYE-SDK-2
+./samples/_output/bin/tutorials/get_img_params
+```
+After running the above type, pinhole's distortion_parameters and camera parameters is obtained , and then update to [here](./config/config_mynteye.yaml).
+
+## HEALTH WARNING: calibration ###
+
+If you would like to run the software/library on your own hardware setup, be
+aware that good results (or results at all) may only be obtained with
+appropriate calibration of the
+
+* camera intrinsics,
+* camera extrinsics (poses relative to the IMU),
+* knowledge about the IMU noise parameters,
+* and ACCURATE TIME SYNCHRONISATION OF ALL SENSORS.
+
+To perform a calibration yourself, we recommend the following:
+
+* Get Kalibr by following the instructions here
+  https://github.com/ethz-asl/kalibr/wiki/installation . If you decide to build
+  from source and you run ROS indigo checkout pull request 3:
+
+        git fetch origin pull/3/head:request3
+        git checkout request3
+
+* Follow https://github.com/ethz-asl/kalibr/wiki/multiple-camera-calibration to
+  calibrate intrinsic and extrinsic parameters of the cameras. If you receive an
+  error message that the tool was unable to make an initial guess on focal
+  length, make sure that your recorded dataset contains frames that have the
+  whole calibration target in view.
+
+* Follow https://github.com/ethz-asl/kalibr/wiki/camera-imu-calibration to get
+  estimates for the spatial parameters of the cameras with respect to the IMU.
+
+
+---
 
 README                        {#mainpage}
 ======
