@@ -1,4 +1,4 @@
-#MYNTEYE OKVIS
+# MYNTEYE OKVIS
 [MYNT-EYE-SDK-2]: https://github.com/slightech/MYNT-EYE-SDK-2.git
 [OKVIS]: https://github.com/slightech/MYNT-EYE-OKVIS-Sample.git
 
