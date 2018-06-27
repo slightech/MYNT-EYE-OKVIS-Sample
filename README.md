@@ -7,9 +7,10 @@
     ```
     export MYNTEYE_SDK2_ROOT=MYNT-EYE-SDK-2_INSTALL_PATH
     ```
-3. Clone and install MYNT-EYE-OKVIS following the procedure of the original OKVIS.
+3. Install dependencies and build MYNT-EYE-OKVIS-Sample follow the procedure of the Original OKVIS here.
 4. Update camera parameters to [here](./config/config_mynteye.yaml).
 5. run okvis using mynteye camaera.
+
 
 ## Get camera calibration parameters
 Through the GetIntrinsics() and GetExtrinsics() function of the [MYNT-EYE-SDK-2][] API, you can get the camaera calibration parameters of the currently open device,follow the steps
@@ -18,6 +19,13 @@ cd MYNT-EYE-SDK-2
 ./samples/_output/bin/tutorials/get_img_params
 ```
 After running the above type, pinhole's distortion_parameters and camera parameters is obtained , and then update to [here](./config/config_mynteye.yaml).
+
+## Run MYNTEYE OKVIS
+Go to mynt-eye-okvis-sample/build folder and Run the application okvis_app_mynteye_sample:
+```
+cd MYNT-EYE-OKVIS-Sample/build
+./okvis_app_mynteye_sdk2 ../config/config_mynteye.yaml
+```
 
 ## HEALTH WARNING: calibration ###
 
