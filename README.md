@@ -21,7 +21,7 @@ cd MYNT-EYE-SDK-2
 After running the above type, pinhole's distortion_parameters and camera parameters is obtained , and then update to [here](./config/config_mynteye.yaml).
 
 ## Run MYNTEYE OKVIS
-Go to mynt-eye-okvis-sample/build folder and Run the application okvis_app_mynteye_sample:
+Go to MYNT-EYE-OKVIS-Sample/build folder and Run the application okvis_app_mynteye_sdk2:
 ```
 cd MYNT-EYE-OKVIS-Sample/build
 ./okvis_app_mynteye_sdk2 ../config/config_mynteye.yaml
