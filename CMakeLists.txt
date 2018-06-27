@@ -275,6 +275,19 @@ if(${BUILD_TESTS})
 endif()
 
 # BUILD LOCAL DEPENDENCIES
+
+if (DEFINED ENV{MYNTEYE_SDK2_ROOT})
+    set(MYNTEYE_SDK2_DIR $ENV{MYNTEYE_SDK2_ROOT})
+endif()
+
+set(MYNT_SDK2_LIB_DIR ${MYNTEYE_SDK2_DIR}/_install/lib)
+include_directories(
+${MYNTEYE_SDK2_DIR}/_install/include
+${MYNTEYE_SDK2_DIR}/third_party/glog
+)
+
+find_package(glog 0.3.5 REQUIRED)
+
 include_directories(okvis_util/include)
 add_subdirectory(okvis_util)
 
@@ -331,6 +344,25 @@ if(BUILD_APPS)
     pthread 
     ${Boost_LIBRARIES}
   )
+  
+ add_executable(okvis_app_mynteye_sdk2 okvis_apps/src/okvis_app_mynteye.cpp)
+  target_link_libraries(okvis_app_mynteye_sdk2 
+    okvis_util
+    okvis_kinematics
+    okvis_time
+    okvis_cv 
+    okvis_common
+    okvis_ceres
+    okvis_timing
+    okvis_matcher
+    okvis_frontend 
+    okvis_multisensor_processing
+    pthread 
+    glog::glog
+    ${MYNT_SDK2_LIB_DIR}/libmynteye.so.2
+    ${Boost_LIBRARIES}
+  )
+
   if(${VISENSORDRIVER_FOUND})
     target_link_libraries(okvis_app_synchronous ${VISensorDriver_LIBRARY})
   endif()
