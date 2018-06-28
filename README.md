@@ -11,6 +11,14 @@
 4. Update camera parameters to [here](./config/config_mynteye.yaml).
 5. run okvis using mynteye camaera.
 
+## Install MYNTEYE OKVIS
+First install dependencies based on the original OKVIS,and the follow the type:
+```
+git clone -b sdk2 https://github.com/slightech/MYNT-EYE-OKVIS-Sample.git
+mkdir build && cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make -j4
+```
 
 ## Get camera calibration parameters
 Through the GetIntrinsics() and GetExtrinsics() function of the [MYNT-EYE-SDK-2][] API, you can get the camaera calibration parameters of the currently open device,follow the steps
