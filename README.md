@@ -26,8 +26,13 @@ Through the GetIntrinsics() and GetExtrinsics() function of the [MYNT-EYE-SDK-2]
 cd MYNT-EYE-SDK-2
 ./samples/_output/bin/tutorials/get_img_params
 ```
-After running the above type, pinhole's distortion_parameters and camera parameters is obtained , and then update to [here](./config/config_mynteye.yaml).
-
+After running the above type, pinhole's distortion_parameters and camera parameters is obtained , and then update to [here](./config/config_mynteye.yaml) according to following format. It should be noted that only first four parameters of coeffs need to be filled in the distortion_coefficients.
+```
+distortion_coefficients: [coeffs]
+focal_length: [fx, fy]
+principal_point: [cx, cy]
+distortion_type: radialtangential
+```
 ## Run MYNTEYE OKVIS
 Go to MYNT-EYE-OKVIS-Sample/build folder and Run the application okvis_app_mynteye_sdk2:
 ```
