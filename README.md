@@ -3,13 +3,9 @@
 [OKVIS]: https://github.com/slightech/MYNT-EYE-OKVIS-Sample.git
 
 1. Download and install [MYNT-EYE-SDK-2][].
-2. Add the path including **MYNT-EYE-SDK** to the environment variable. Open .bashrc file and add at the end the following line.
-    ```
-    export MYNTEYE_SDK2_ROOT=MYNT-EYE-SDK-2_INSTALL_PATH
-    ```
-3. Install dependencies and build MYNT-EYE-OKVIS-Sample follow the procedure of the Original OKVIS here.
-4. Update camera parameters to [here](./config/config_mynteye.yaml).
-5. run okvis using mynteye camaera.
+2. Install dependencies and build MYNT-EYE-OKVIS-Sample follow the procedure of the Original OKVIS here.
+3. Update camera parameters to [here](./config/config_mynteye.yaml).
+4. run okvis using mynteye camaera.
 
 ## Install MYNTEYE OKVIS
 First install dependencies based on the original OKVIS,and the follow the type:
