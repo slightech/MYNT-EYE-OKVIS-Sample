@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 2.8.11)
-
 project(okvis)
 # The version number.
 set(OKVIS_MAJOR_VERSION 1)
@@ -12,7 +11,7 @@ set(OKVIS_VERSION
 option (USE_SYSTEM_BRISK
         "Use brisk via find_package rather than downloading it as part of okvis" OFF) 
 option (USE_SYSTEM_CERES
-        "Use ceres via find_package rather than downloading it as part of okvis" ON) 
+        "Use ceres via find_package rather than downloading it as part of okvis" OFF) 
 option (BUILD_APPS
         "Builds a demo app (which requires boost)" ON) 
 option (BUILD_TESTS
@@ -103,6 +102,8 @@ include_directories(${EIGEN_INCLUDE_DIR})
 # glog
 find_package(Glog REQUIRED)
 include_directories(BEFORE ${GLOG_INCLUDE_DIRS}) 
+
+#find_package(glog 0.3.5 REQUIRED)
 
 # brisk
 if(${USE_SYSTEM_BRISK})
@@ -275,19 +276,6 @@ if(${BUILD_TESTS})
 endif()
 
 # BUILD LOCAL DEPENDENCIES
-
-if (DEFINED ENV{MYNTEYE_SDK2_ROOT})
-    set(MYNTEYE_SDK2_DIR $ENV{MYNTEYE_SDK2_ROOT})
-endif()
-
-set(MYNT_SDK2_LIB_DIR ${MYNTEYE_SDK2_DIR}/_install/lib)
-include_directories(
-${MYNTEYE_SDK2_DIR}/_install/include
-${MYNTEYE_SDK2_DIR}/third_party/glog
-)
-
-find_package(glog 0.3.5 REQUIRED)
-
 include_directories(okvis_util/include)
 add_subdirectory(okvis_util)
 
@@ -358,8 +346,7 @@ if(BUILD_APPS)
     okvis_frontend 
     okvis_multisensor_processing
     pthread 
-    glog::glog
-    ${MYNT_SDK2_LIB_DIR}/libmynteye.so.2
+    mynteye
     ${Boost_LIBRARIES}
   )
 
