@@ -65,7 +65,7 @@
 #include <okvis/VioParametersReader.hpp>
 #include <okvis/ThreadedKFVio.hpp>
 
-#include "mynteye/glog_init.h"
+#include "mynteye/logger.h"
 #include "mynteye/device.h"
 #include "mynteye/utils.h"
 #include "mynteye/times.h"
