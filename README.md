@@ -11,6 +11,7 @@
 First install dependencies based on the original OKVIS,and the follow the type:
 ```
 git clone -b sdk2 https://github.com/slightech/MYNT-EYE-OKVIS-Sample.git
+cd MYNT-EYE-OKVIS-Sample/
 mkdir build && cd build
 cmake -DCMAKE_BUILD_TYPE=Release ..
 make -j4

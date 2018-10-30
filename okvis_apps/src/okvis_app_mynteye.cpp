@@ -65,7 +65,6 @@
 #include <okvis/VioParametersReader.hpp>
 #include <okvis/ThreadedKFVio.hpp>
 
-#include "mynteye/logger.h"
 #include "mynteye/device.h"
 #include "mynteye/utils.h"
 #include "mynteye/times.h"
@@ -220,11 +219,6 @@ const static double UINT_S = 0.00001; //uint 0.01 ms
 
 int main(int argc, char **argv)
 {
-
-    google::InitGoogleLogging(argv[0]);
-    FLAGS_stderrthreshold = 0;  // INFO: 0, WARNING: 1, ERROR: 2, FATAL: 3
-    FLAGS_colorlogtostderr = 1;
-
     if (argc != 2 && argc != 3)
     {
         std::cerr <<  "Uage: " << "./app config-yaml-file [du]" << std::endl;
@@ -279,27 +273,14 @@ int main(int argc, char **argv)
 
     //std::cout << "parameters.sensors_information.cameraRate: " << parameters.sensors_information.cameraRate << std::endl;
     //std::cout << "parameters.imu.rate: " << parameters.imu.rate << std::endl;
-    
+
     device->LogOptionInfos();
 
     // device->RunOptionAction(Option::ZERO_DRIFT_CALIBRATION);
 
-    device->SetStreamCallback(
-        Stream::LEFT, [](const device::StreamData &data) {
-          CHECK_NOTNULL(data.img);
-        });
-    device->SetStreamCallback(
-        Stream::RIGHT, [](const device::StreamData &data) {
-          CHECK_NOTNULL(data.img);
-        });
-
-    device->SetMotionCallback([](const device::MotionData &data) {
-        CHECK_NOTNULL(data.imu);
-      });
-
     device->EnableMotionDatas();
     device->Start(Source::ALL);
-    int64_t count = 0; 
+    int64_t count = 0;
     while (true)
     {
         device->WaitForStreams();
@@ -326,17 +307,17 @@ int main(int argc, char **argv)
         for (auto &&data : motion_datas)
         {
 	       Eigen::Vector3d gyro;
-	       gyro[0] = data.imu->gyro[0] * DEG2RAD; 
-	       gyro[1] = data.imu->gyro[1] * DEG2RAD; 
+	       gyro[0] = data.imu->gyro[0] * DEG2RAD;
+	       gyro[1] = data.imu->gyro[1] * DEG2RAD;
 	       gyro[2] = data.imu->gyro[2] * DEG2RAD;
 	       Eigen::Vector3d accel;
-	       accel[0] = data.imu->accel[0]*parameters.imu.g, 
-	       accel[1] = data.imu->accel[1]*parameters.imu.g, 
+	       accel[0] = data.imu->accel[0]*parameters.imu.g,
+	       accel[1] = data.imu->accel[1]*parameters.imu.g,
 	       accel[2] = data.imu->accel[2]*parameters.imu.g;
 
 	       uint32_t imu_s = data.imu->timestamp*UINT_S;
 	       uint32_t imu_ns = (data.imu->timestamp-imu_s/UINT_S)*10000;
-	       okvis::Time t_imu = okvis::Time(imu_s, imu_ns); 
+	       okvis::Time t_imu = okvis::Time(imu_s, imu_ns);
 	       okvis_estimator.addImuMeasurement(t_imu, accel, gyro);
 	 }
 	       okvis_estimator.addImage(t, 0, left_img);
