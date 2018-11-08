@@ -1,8 +1,8 @@
 # MYNTEYE OKVIS
-[MYNT-EYE-SDK-2]: https://github.com/slightech/MYNT-EYE-SDK-2.git
+[MYNT-EYE-S-SDK]: https://github.com/slightech/MYNT-EYE-S-SDK.git
 [OKVIS]: https://github.com/slightech/MYNT-EYE-OKVIS-Sample.git
 
-1. Download and install [MYNT-EYE-SDK-2][].
+1. Download and install [MYNT-EYE-S-SDK][].
 2. Install dependencies and build MYNT-EYE-OKVIS-Sample follow the procedure of the Original OKVIS here.
 3. Update camera parameters to [here](./config/config_mynteye.yaml).
 4. run okvis using mynteye camaera.
@@ -10,7 +10,7 @@
 ## Install MYNTEYE OKVIS
 First install dependencies based on the original OKVIS,and the follow the type:
 ```
-git clone -b sdk2 https://github.com/slightech/MYNT-EYE-OKVIS-Sample.git
+git clone -b mynteye-s https://github.com/slightech/MYNT-EYE-OKVIS-Sample.git
 cd MYNT-EYE-OKVIS-Sample/
 mkdir build && cd build
 cmake -DCMAKE_BUILD_TYPE=Release ..
@@ -18,9 +18,9 @@ make -j4
 ```
 
 ## Get camera calibration parameters
-Through the GetIntrinsics() and GetExtrinsics() function of the [MYNT-EYE-SDK-2][] API, you can get the camaera calibration parameters of the currently open device,follow the steps
+Through the GetIntrinsics() and GetExtrinsics() function of the [MYNT-EYE-S-SDK][] API, you can get the camaera calibration parameters of the currently open device,follow the steps
 ```
-cd MYNT-EYE-SDK-2
+cd MYNT-EYE-S-SDK
 ./samples/_output/bin/tutorials/get_img_params
 ```
 After running the above type, pinhole's distortion_parameters and camera parameters is obtained , and then update to [here](./config/config_mynteye.yaml) according to following format. It should be noted that only first four parameters of coeffs need to be filled in the distortion_coefficients.
@@ -31,10 +31,10 @@ principal_point: [cx, cy]
 distortion_type: radialtangential
 ```
 ## Run MYNTEYE OKVIS
-Go to MYNT-EYE-OKVIS-Sample/build folder and Run the application okvis_app_mynteye_sdk2:
+Go to MYNT-EYE-OKVIS-Sample/build folder and Run the application okvis_app_mynteye_s:
 ```
 cd MYNT-EYE-OKVIS-Sample/build
-./okvis_app_mynteye_sdk2 ../config/config_mynteye.yaml
+./okvis_app_mynteye_s ../config/config_mynteye.yaml
 ```
 
 ## HEALTH WARNING: calibration ###

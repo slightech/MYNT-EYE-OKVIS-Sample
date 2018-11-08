@@ -332,9 +332,9 @@ if(BUILD_APPS)
     pthread 
     ${Boost_LIBRARIES}
   )
-  
- add_executable(okvis_app_mynteye_sdk2 okvis_apps/src/okvis_app_mynteye.cpp)
-  target_link_libraries(okvis_app_mynteye_sdk2 
+
+ add_executable(okvis_app_mynteye_s okvis_apps/src/okvis_app_mynteye.cpp)
+  target_link_libraries(okvis_app_mynteye_s
     okvis_util
     okvis_kinematics
     okvis_time
