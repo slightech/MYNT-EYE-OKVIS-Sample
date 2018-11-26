@@ -12,27 +12,6 @@ set (OPENGV_VERSION_MINOR 0)
 #  RelWithDebInfo (CMAKE_C_FLAGS_RELWITHDEBINFO or CMAKE_CXX_FLAGS_RELWITHDEBINFO
 #  MinSizeRel (CMAKE_C_FLAGS_MINSIZEREL or CMAKE_CXX_FLAGS_MINSIZEREL) 
 
-# Offer the user the choice of overriding the installation directories
-set(INSTALL_LIB_DIR lib CACHE PATH "Installation directory for libraries")
-set(INSTALL_BIN_DIR bin CACHE PATH "Installation directory for executables")
-set(INSTALL_INCLUDE_DIR include CACHE PATH
-  "Installation directory for header files")
-if(WIN32 AND NOT CYGWIN)
-  set(DEF_INSTALL_CMAKE_DIR CMake)
-else()
-  set(DEF_INSTALL_CMAKE_DIR lib/CMake/opengv)
-endif()
-set(INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH
-  "Installation directory for CMake files")
- 
-# Make relative paths absolute (needed later on)
-foreach(p LIB BIN INCLUDE CMAKE)
-  set(var INSTALL_${p}_DIR)
-  if(NOT IS_ABSOLUTE "${${var}}")
-    set(${var} "${CMAKE_INSTALL_PREFIX}/${${var}}")
-  endif()
-endforeach()
-
 if(NOT DEFINED CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
@@ -174,111 +153,57 @@ set( OPENGV_HEADER_FILES
 
 IF(WIN32)
   add_library( opengv ${OPENGV_SOURCE_FILES} ${OPENGV_HEADER_FILES} )
-  if(DEFINED BUILD_TESTS)
-    add_library( random_generators 
-       test/random_generators.cpp 
-       test/random_generators.hpp 
-       test/experiment_helpers.cpp 
-       test/experiment_helpers.hpp 
-       test/time_measurement.cpp 
-       test/time_measurement.hpp )
-  endif()
+  add_library( random_generators test/random_generators.cpp test/random_generators.hpp test/experiment_helpers.cpp test/experiment_helpers.hpp test/time_measurement.cpp test/time_measurement.hpp )
 ELSE()
   add_library( opengv STATIC ${OPENGV_SOURCE_FILES} ${OPENGV_HEADER_FILES} )
-  if(DEFINED BUILD_TESTS)
-    add_library( random_generators STATIC 
-      test/random_generators.cpp 
-      test/random_generators.hpp 
-      test/experiment_helpers.cpp 
-      test/experiment_helpers.hpp 
-      test/time_measurement.cpp 
-      test/time_measurement.hpp )
-    target_link_libraries(random_generators opengv)
-  endif()
+  add_library( random_generators STATIC test/random_generators.cpp test/random_generators.hpp test/experiment_helpers.cpp test/experiment_helpers.hpp test/time_measurement.cpp test/time_measurement.hpp )
+  target_link_libraries(random_generators opengv)
 ENDIF()
 
-if(DEFINED BUILD_TESTS)
-  add_executable( test_absolute_pose test/test_absolute_pose.cpp )
-  target_link_libraries( test_absolute_pose opengv random_generators )
+add_executable( test_absolute_pose test/test_absolute_pose.cpp )
+target_link_libraries( test_absolute_pose opengv random_generators )
 
-  add_executable( test_absolute_pose_sac test/test_absolute_pose_sac.cpp )
-  target_link_libraries( test_absolute_pose_sac opengv random_generators )
+add_executable( test_absolute_pose_sac test/test_absolute_pose_sac.cpp )
+target_link_libraries( test_absolute_pose_sac opengv random_generators )
 
-  add_executable( test_noncentral_absolute_pose test/test_noncentral_absolute_pose.cpp )
-  target_link_libraries( test_noncentral_absolute_pose opengv random_generators )
+add_executable( test_noncentral_absolute_pose test/test_noncentral_absolute_pose.cpp )
+target_link_libraries( test_noncentral_absolute_pose opengv random_generators )
 
-  add_executable( test_noncentral_absolute_pose_sac test/test_noncentral_absolute_pose_sac.cpp )
-  target_link_libraries( test_noncentral_absolute_pose_sac opengv random_generators )
+add_executable( test_noncentral_absolute_pose_sac test/test_noncentral_absolute_pose_sac.cpp )
+target_link_libraries( test_noncentral_absolute_pose_sac opengv random_generators )
 
-  add_executable( test_relative_pose test/test_relative_pose.cpp )
-  target_link_libraries( test_relative_pose opengv random_generators )
+add_executable( test_relative_pose test/test_relative_pose.cpp )
+target_link_libraries( test_relative_pose opengv random_generators )
 
-  add_executable( test_relative_pose_rotationOnly test/test_relative_pose_rotationOnly.cpp )
-  target_link_libraries( test_relative_pose_rotationOnly opengv random_generators )
+add_executable( test_relative_pose_rotationOnly test/test_relative_pose_rotationOnly.cpp )
+target_link_libraries( test_relative_pose_rotationOnly opengv random_generators )
 
-  add_executable( test_relative_pose_rotationOnly_sac test/test_relative_pose_rotationOnly_sac.cpp )
-  target_link_libraries( test_relative_pose_rotationOnly_sac opengv random_generators )
+add_executable( test_relative_pose_rotationOnly_sac test/test_relative_pose_rotationOnly_sac.cpp )
+target_link_libraries( test_relative_pose_rotationOnly_sac opengv random_generators )
 
-  add_executable( test_relative_pose_sac test/test_relative_pose_sac.cpp )
-  target_link_libraries( test_relative_pose_sac opengv random_generators )
+add_executable( test_relative_pose_sac test/test_relative_pose_sac.cpp )
+target_link_libraries( test_relative_pose_sac opengv random_generators )
 
-  add_executable( test_noncentral_relative_pose test/test_noncentral_relative_pose.cpp )
-  target_link_libraries( test_noncentral_relative_pose opengv random_generators )
+add_executable( test_noncentral_relative_pose test/test_noncentral_relative_pose.cpp )
+target_link_libraries( test_noncentral_relative_pose opengv random_generators )
 
-  add_executable( test_noncentral_relative_pose_sac test/test_noncentral_relative_pose_sac.cpp )
-  target_link_libraries( test_noncentral_relative_pose_sac opengv random_generators )
+add_executable( test_noncentral_relative_pose_sac test/test_noncentral_relative_pose_sac.cpp )
+target_link_libraries( test_noncentral_relative_pose_sac opengv random_generators )
 
-  add_executable( test_multi_noncentral_relative_pose_sac test/test_multi_noncentral_relative_pose_sac.cpp )
-  target_link_libraries( test_multi_noncentral_relative_pose_sac opengv random_generators )
+add_executable( test_multi_noncentral_relative_pose_sac test/test_multi_noncentral_relative_pose_sac.cpp )
+target_link_libraries( test_multi_noncentral_relative_pose_sac opengv random_generators )
 
-  add_executable( test_eigensolver_sac test/test_eigensolver_sac.cpp )
-  target_link_libraries( test_eigensolver_sac opengv random_generators )
+add_executable( test_eigensolver_sac test/test_eigensolver_sac.cpp )
+target_link_libraries( test_eigensolver_sac opengv random_generators )
 
-  add_executable( test_triangulation test/test_triangulation.cpp )
-  target_link_libraries( test_triangulation opengv random_generators )
+add_executable( test_triangulation test/test_triangulation.cpp )
+target_link_libraries( test_triangulation opengv random_generators )
 
-  add_executable( test_eigensolver test/test_eigensolver.cpp )
-  target_link_libraries( test_eigensolver opengv random_generators )
+add_executable( test_eigensolver test/test_eigensolver.cpp )
+target_link_libraries( test_eigensolver opengv random_generators )
 
-  add_executable( test_point_cloud test/test_point_cloud.cpp )
-  target_link_libraries( test_point_cloud opengv random_generators )
+add_executable( test_point_cloud test/test_point_cloud.cpp )
+target_link_libraries( test_point_cloud opengv random_generators )
 
-  add_Executable( test_point_cloud_sac test/test_point_cloud_sac.cpp )
-  target_link_libraries( test_point_cloud_sac opengv random_generators )
-
-endif()
-
-# sleutene: installation if required
-install(TARGETS opengv
-  EXPORT opengvTargets 
-  ARCHIVE DESTINATION "${INSTALL_LIB_DIR}" COMPONENT lib
-)
-install(DIRECTORY include/ DESTINATION ${INSTALL_INCLUDE_DIR} COMPONENT dev FILES_MATCHING PATTERN "*.hpp")
-
-# export
-export (TARGETS opengv FILE "${PROJECT_BINARY_DIR}/opengvTargets.cmake")
-export (PACKAGE opengv)
-
-# sleutene: enable find_package
-# Create the opengvConfig.cmake
-file(RELATIVE_PATH REL_INCLUDE_DIR "${INSTALL_CMAKE_DIR}"
-   "${INSTALL_INCLUDE_DIR}")
-# ... for the build tree
-set(CONF_INCLUDE_DIRS 
-  "${PROJECT_SOURCE_DIR}/include"
-  "${PROJECT_BINARY_DIR}"
-)
-configure_file(opengvConfig.cmake.in
-  "${PROJECT_BINARY_DIR}/opengvConfig.cmake" @ONLY)
-# ... for the install tree
-set(CONF_INCLUDE_DIRS "\${OPENGV_CMAKE_DIR}/${REL_INCLUDE_DIR}")
-configure_file(opengvConfig.cmake.in
-  "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/opengvConfig.cmake" @ONLY)
-# Install the opengvConfig.cmake and opengvConfigVersion.cmake
-install(FILES
-  "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/opengvConfig.cmake"
-  DESTINATION "${INSTALL_CMAKE_DIR}")
- 
-# Install the export set for use with the install-tree
-install(EXPORT opengvTargets DESTINATION
-  "${INSTALL_CMAKE_DIR}")
+add_Executable( test_point_cloud_sac test/test_point_cloud_sac.cpp )
+target_link_libraries( test_point_cloud_sac opengv random_generators )
