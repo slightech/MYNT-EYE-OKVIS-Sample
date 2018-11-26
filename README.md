@@ -1,3 +1,55 @@
+MYNTEYE OKVIS_ROS
+    Download and install MYNT-EYE-D-SDK.
+    Install dependencies and build MYNT-EYE-OKVIS-Sample follow the procedure of the Original OKVIS_ros
+    Update camera parameters by kalibr.
+    run okvis_ros using mynteye camaera.
+
+Install MYNTEYE OKVIS_ROS
+
+First install dependencies based on the original OKVIS_ROS,and the follow the type:
+mkdir -p ~/catkin_okvis/src
+cd ~/catkin_okvis/src
+git clone -b mynteye-d https://github.com/slightech/MYNT-EYE-OKVIS-Sample.git
+cd ..
+catkin_make -j4
+
+
+
+Run MYNTEYE OKVIS
+
+cd MYNT-EYE-D-SDK
+wrappers/ros/devel/setup.bash
+roslaunch mynteye_wrapper_d mynteye.launch
+
+open another terminal
+cd ~/catkin_okvis
+source devel/setup.bash
+roslaunch okvis_ros mynteye.launch
+
+HEALTH WARNING: calibration
+
+If you would like to run the software/library on your own hardware setup, be aware that good results (or results at all) may only be obtained with appropriate calibration of the
+
+    camera intrinsics,
+    camera extrinsics (poses relative to the IMU),
+    knowledge about the IMU noise parameters,
+    and ACCURATE TIME SYNCHRONISATION OF ALL SENSORS.
+
+To perform a calibration yourself, we recommend the following:
+
+    Get Kalibr by following the instructions here https://github.com/ethz-asl/kalibr/wiki/installation . If you decide to build from source and you run ROS indigo checkout pull request 3:
+
+      git fetch origin pull/3/head:request3
+      git checkout request3
+
+    Follow https://github.com/ethz-asl/kalibr/wiki/multiple-camera-calibration to calibrate intrinsic and extrinsic parameters of the cameras. If you receive an error message that the tool was unable to make an initial guess on focal length, make sure that your recorded dataset contains frames that have the whole calibration target in view.
+
+    Follow https://github.com/ethz-asl/kalibr/wiki/camera-imu-calibration to get estimates for the spatial parameters of the cameras with respect to the IMU.
+
+
+
+
+
 README                        {#mainpage}
 ======
 
