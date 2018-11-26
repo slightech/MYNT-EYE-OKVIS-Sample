@@ -1,30 +1,45 @@
 MYNTEYE OKVIS_ROS
+
+
     Download and install MYNT-EYE-D-SDK.
+
     Install dependencies and build MYNT-EYE-OKVIS-Sample follow the procedure of the Original OKVIS_ros
+
     Update camera parameters by kalibr.
+
     run okvis_ros using mynteye camaera.
 
 Install MYNTEYE OKVIS_ROS
 
-First install dependencies based on the original OKVIS_ROS,and the follow the type:
-mkdir -p ~/catkin_okvis/src
-cd ~/catkin_okvis/src
-git clone -b mynteye-d https://github.com/slightech/MYNT-EYE-OKVIS-Sample.git
-cd ..
-catkin_make -j4
+	First install dependencies based on the original OKVIS_ROS,and the follow the type:
+
+	mkdir -p ~/catkin_okvis/src
+
+	cd ~/catkin_okvis/src
+
+	git clone -b mynteye-d https://github.com/slightech/MYNT-EYE-OKVIS-Sample.git
+
+	cd ..
+
+	catkin_make -j4
 
 
 
 Run MYNTEYE OKVIS
 
-cd MYNT-EYE-D-SDK
-wrappers/ros/devel/setup.bash
-roslaunch mynteye_wrapper_d mynteye.launch
+	cd MYNT-EYE-D-SDK
 
-open another terminal
-cd ~/catkin_okvis
-source devel/setup.bash
-roslaunch okvis_ros mynteye.launch
+	wrappers/ros/devel/setup.bash
+
+	roslaunch mynteye_wrapper_d mynteye.launch
+
+	open another terminal
+
+	cd ~/catkin_okvis
+
+	source devel/setup.bash
+
+	roslaunch okvis_ros mynteye.launch
 
 HEALTH WARNING: calibration
 
