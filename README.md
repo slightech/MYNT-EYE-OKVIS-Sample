@@ -5,7 +5,7 @@
 1. Download and install [MYNT-EYE-D-SDK][].
 2. Install dependencies and build MYNT-EYE-OKVIS-Sample follow the procedure of the Original OKVIS .
 3. Update camera parameters to [here](./config/config_mynteye.yaml).
-4. run okvis using mynteye depth camaera.
+4. run okvis using mynteye depth camera.
 
 ## Install MYNTEYE OKVIS_ROS
 First install dependencies based on the original okvis_ros,and the follow the type:
@@ -69,11 +69,14 @@ To perform a calibration yourself, we recommend the following:
 
     Follow https://github.com/ethz-asl/kalibr/wiki/camera-imu-calibration to get estimates for the spatial parameters of the cameras with respect to the IMU.
 
+   
+   
 
+<HR style="border:10 double #000000" width="100%" SIZE=5>
+   
+   
 
-
-
-README                        {#mainpage}
+README
 ======
 
 Welcome to OKVIS: Open Keyframe-based Visual-Inertial SLAM.
