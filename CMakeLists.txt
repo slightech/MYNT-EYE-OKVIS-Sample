@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 2.8.11)
 project(okvis_ros)
 
 find_package(catkin REQUIRED  
@@ -23,7 +23,10 @@ catkin_package(
     LIBRARIES ${PROJECT_NAME}
 )
 
-# we really want to use Release here
+FIND_PACKAGE(Boost COMPONENTS filesystem system REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS})
+
+# Release
 set(CMAKE_BUILD_TYPE Release)
 
 message(STATUS "Building with ${CMAKE_BUILD_TYPE}")
@@ -102,11 +105,31 @@ include_directories(
   okvis/okvis_multisensor_processing/include
 )
 
-# now the actual applications
 add_executable(okvis_node src/okvis_node.cpp )
 target_link_libraries(okvis_node ${PROJECT_NAME} )
-add_executable(okvis_node_synchronous src/okvis_node_synchronous.cpp)
-target_link_libraries(okvis_node_synchronous ${PROJECT_NAME} )
 add_executable(dataset_convertor src/dataset_convertor.cpp)
 target_link_libraries(dataset_convertor ${PROJECT_NAME} )
+
+# SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
+
+add_executable(okvis_app_mynteye_s okvis/okvis_apps/src/okvis_app_mynteye.cpp)
+target_link_libraries(okvis_app_mynteye_s
+  okvis_util
+  okvis_kinematics
+  okvis_time
+  okvis_cv 
+  okvis_common
+  okvis_ceres
+  okvis_timing
+  okvis_matcher
+  okvis_frontend 
+  okvis_multisensor_processing
+  pthread 
+  mynteye
+  ${Boost_LIBRARIES}
+)
+
+add_executable(okvis_node_synchronous src/okvis_node_synchronous.cpp)
+target_link_libraries(okvis_node_synchronous ${PROJECT_NAME} )
 

@@ -29,3 +29,15 @@
 
 # Docu
 documentation/html/
+
+# bin
+bin/*
+
+# build
+build/*
+
+# ceres
+ceres/*
+
+# vscode
+.vscode/*
