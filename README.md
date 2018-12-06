@@ -1,36 +1,110 @@
-# MYNTEYE OKVIS_ROS
+# MYNTEYE OKVIS
 [MYNT-EYE-D-SDK]: https://github.com/slightech/MYNT-EYE-D-SDK.git
+[MYNT-EYE-S-SDK]: https://github.com/slightech/MYNT-EYE-S-SDK.git
 [OKVIS]: https://github.com/slightech/MYNT-EYE-OKVIS-Sample.git
+   
 
-1. Download and install [MYNT-EYE-D-SDK][].
-2. Install dependencies and build MYNT-EYE-OKVIS-Sample follow the procedure of the Original OKVIS .
-3. Update camera parameters to [here](./config/config_mynteye.yaml).
-4. run okvis using mynteye depth camaera.
+At first ,judge if your device type is mynteye-d or mynteye-s,then follow the following installation process: [Install with MYNT-EYE-S-SDK](#ssdkinstall) / [Install with MYNT-EYE-D-SDK](#dsdkinstall).
 
-## Install MYNTEYE OKVIS_ROS
-First install dependencies based on the original okvis_ros,and the follow the type:
+
+## Install with <span id = "ssdkinstall">MYNT-EYE-S-SDK</span>  
+
+1. Download and install [MYNT-EYE-S-SDK][].
+2. Install dependencies and build MYNT-EYE-OKVIS-Sample follow the procedure of the Original OKVIS here.
+3. Update camera parameters to [here](./config/config_mynteye_s.yaml).
+4. run okvis using mynteye camaera.
+
+### Install MYNTEYE OKVIS
+First install dependencies based on the original OKVIS,and the follow the type:
 ```
-mkdir -p ~/catkin_okvis/src
-cd ~/catkin_okvis/src
-git clone -b mynteye-d https://github.com/slightech/MYNT-EYE-OKVIS-Sample.git
-cd ..
-catkin_make -j4
+git clone -b mynteye https://github.com/slightech/MYNT-EYE-OKVIS-Sample.git
+cd MYNT-EYE-OKVIS-Sample/
+mkdir build && cd build
+cmake ..
+make
 ```
-## Get  calibration parameters
-Through the [MYNT-EYE-D-SDK][] API, you can get the camaera and IMU calibration parameters of the currently open device,follow the steps
+
+### Get camera calibration parameters
+Through the GetIntrinsics() and GetExtrinsics() function of the [MYNT-EYE-S-SDK][] API, you can get the camaera calibration parameters of the currently open device,follow the steps
 ```
-cd MYNT-EYE-D-SDK
-./samples/_output/bin/get_img_params
-./samples/_output/bin/get_imu_params
+cd MYNT-EYE-S-SDK
+./samples/_output/bin/tutorials/get_img_params
 ```
-After running the above type, pinhole's distortion_parameters and camera parameters is obtained , and then update to [here](./config/config_mynteye.yaml) according to following format. It should be noted that only first four parameters of coeffs need to be filled in the distortion_coefficients.
+After running the above type, pinhole's distortion_parameters and camera parameters is obtained , and then update to [here](./config/config_mynteye_s.yaml) according to following format. It should be noted that only first four parameters of coeffs need to be filled in the distortion_coefficients.
 ```
 distortion_coefficients: [coeffs]
 focal_length: [fx, fy]
 principal_point: [cx, cy]
 distortion_type: radialtangential
 ```
-## Run MYNTEYE OKVIS_ROS
+### Run MYNTEYE OKVIS
+Go to MYNT-EYE-OKVIS-Sample/build folder and Run the application okvis_app_mynteye_s:
+```
+cd MYNT-EYE-OKVIS-Sample/bin
+./okvis_app_mynteye_s ../config/config_mynteye_s.yaml
+```
+
+### HEALTH WARNING: calibration ###
+
+If you would like to run the software/library on your own hardware setup, be
+aware that good results (or results at all) may only be obtained with
+appropriate calibration of the
+
+* camera intrinsics,
+* camera extrinsics (poses relative to the IMU),
+* knowledge about the IMU noise parameters,
+* and ACCURATE TIME SYNCHRONISATION OF ALL SENSORS.
+
+To perform a calibration yourself, we recommend the following:
+
+* Get Kalibr by following the instructions here
+  https://github.com/ethz-asl/kalibr/wiki/installation . If you decide to build
+  from source and you run ROS indigo checkout pull request 3:
+
+        git fetch origin pull/3/head:request3
+        git checkout request3
+
+* Follow https://github.com/ethz-asl/kalibr/wiki/multiple-camera-calibration to
+  calibrate intrinsic and extrinsic parameters of the cameras. If you receive an
+  error message that the tool was unable to make an initial guess on focal
+  length, make sure that your recorded dataset contains frames that have the
+  whole calibration target in view.
+
+* Follow https://github.com/ethz-asl/kalibr/wiki/camera-imu-calibration to get
+  estimates for the spatial parameters of the cameras with respect to the IMU.
+
+## Install with  <span id = "dsdkinstall">MYNT-EYE-D-SDK</span>   
+
+1. Download and install [MYNT-EYE-D-SDK][].
+2. Install dependencies and build MYNT-EYE-OKVIS-Sample follow the procedure of the Original OKVIS .
+3. Update camera parameters to [here](./config/config_mynteye_d.yaml).
+4. run okvis using mynteye depth camaera.
+
+### Install MYNTEYE OKVIS
+First install dependencies based on the original OKVIS,and the follow the type:
+```
+git clone -b mynteye https://github.com/slightech/MYNT-EYE-OKVIS-Sample.git
+cd MYNT-EYE-OKVIS-Sample/
+mkdir build && cd build
+cmake ..
+make
+```
+
+### Get  calibration parameters
+Through the [MYNT-EYE-D-SDK][] API, you can get the camaera and IMU calibration parameters of the currently open device,follow the steps
+```
+cd MYNT-EYE-D-SDK
+./samples/_output/bin/get_img_params
+./samples/_output/bin/get_imu_params
+```
+After running the above type, pinhole's distortion_parameters and camera parameters is obtained , and then update to [here](./config/config_mynteye_d.yaml) according to following format. It should be noted that only first four parameters of coeffs need to be filled in the distortion_coefficients.
+```
+distortion_coefficients: [coeffs]
+focal_length: [fx, fy]
+principal_point: [cx, cy]
+distortion_type: radialtangential
+```
+### Run MYNTEYE OKVIS_ROS
 Run  camera mynteye_wrapper_d
 ```
 cd MYNT-EYE-D-SDK
@@ -40,16 +114,16 @@ roslaunch mynteye_wrapper_d mynteye.launch
 Run MYNT-EYE-OKVIS-Sample
 open another terminal and follow the steps.
 ```
-cd ~/catkin_okvis
+cd MYNT-EYE-OKVIS-Sample/build
 source devel/setup.bash
-roslaunch okvis_ros mynteye.launch
+roslaunch okvis_ros mynteye_d.launch
 ```
 And use rviz to display
 ```
 cd ~/catkin_okvis/src/MYNT-EYE-OKVIS-Sample/config
 rosrun rviz rviz -d rviz.rviz
 ```
-##HEALTH WARNING: calibration
+### HEALTH WARNING: calibration
 
 If you would like to run the software/library on your own hardware setup, be aware that good results (or results at all) may only be obtained with appropriate calibration of the
 
@@ -70,7 +144,8 @@ To perform a calibration yourself, we recommend the following:
     Follow https://github.com/ethz-asl/kalibr/wiki/camera-imu-calibration to get estimates for the spatial parameters of the cameras with respect to the IMU.
 
 
-
+---
+   
 
 
 README                        {#mainpage}
