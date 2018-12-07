@@ -26,6 +26,8 @@ catkin_package(
 FIND_PACKAGE(Boost COMPONENTS filesystem system REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
+find_package(OpenCV 3.0 REQUIRED)
+
 find_package(mynteye)
 find_package(mynteyed)
 
