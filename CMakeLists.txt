@@ -26,6 +26,21 @@ catkin_package(
 FIND_PACKAGE(Boost COMPONENTS filesystem system REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
+find_package(mynteye)
+find_package(mynteyed)
+
+if(mynteye_FOUND)
+   message(STATUS "MYNT-EYE-S-SDK found.")
+else()
+   message(STATUS "MYNT-EYE-S-SDK not found.")
+endif()
+
+if(mynteyed_FOUND)
+   message(STATUS "MYNT-EYE-D-SDK found.")
+else()
+   message(STATUS "MYNT-EYE-D-SDK not found.")
+endif()
+
 # Release
 set(CMAKE_BUILD_TYPE Release)
 
@@ -113,22 +128,24 @@ target_link_libraries(dataset_convertor ${PROJECT_NAME} )
 # SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
-add_executable(okvis_app_mynteye_s okvis/okvis_apps/src/okvis_app_mynteye.cpp)
-target_link_libraries(okvis_app_mynteye_s
-  okvis_util
-  okvis_kinematics
-  okvis_time
-  okvis_cv 
-  okvis_common
-  okvis_ceres
-  okvis_timing
-  okvis_matcher
-  okvis_frontend 
-  okvis_multisensor_processing
-  pthread 
-  mynteye
-  ${Boost_LIBRARIES}
-)
+if(mynteye_FOUND)
+  add_executable(okvis_app_mynteye_s okvis/okvis_apps/src/okvis_app_mynteye.cpp)
+  target_link_libraries(okvis_app_mynteye_s
+    okvis_util
+    okvis_kinematics
+    okvis_time
+    okvis_cv 
+    okvis_common
+    okvis_ceres
+    okvis_timing
+    okvis_matcher
+    okvis_frontend 
+    okvis_multisensor_processing
+    pthread 
+    mynteye
+    ${Boost_LIBRARIES}
+  )
+endif()
 
 add_executable(okvis_node_synchronous src/okvis_node_synchronous.cpp)
 target_link_libraries(okvis_node_synchronous ${PROJECT_NAME} )
