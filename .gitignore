@@ -30,9 +30,6 @@
 # Docu
 documentation/html/
 
-# bin
-bin/*
-
 # build
 build/*
 
