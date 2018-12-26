@@ -28,8 +28,8 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 find_package(OpenCV 3.0 REQUIRED)
 
-find_package(mynteye)
-find_package(mynteyed)
+find_package(mynteye QUIET)
+find_package(mynteyed QUIET)
 
 if(mynteye_FOUND)
    message(STATUS "MYNT-EYE-S-SDK found.")
